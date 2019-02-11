@@ -1,0 +1,8 @@
+name: pypeline
+channels:
+  - defaults
+dependencies:
+  - pip
+  - python=3.6.8
+  - setuptools
+  - wheel
