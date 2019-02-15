@@ -11,7 +11,7 @@ class Either:
     """
     def __init__(self, value):
         self.value = value
-        
+
     def is_failure(self):
         raise NotImplementedError()
     
@@ -29,7 +29,7 @@ class Success(Either):
 
 class Failure(Either):
     """Failure: equivalent to Left either variant"""
-    def __init__(self, error_name, error_msg, method):
+    def __init__(self, error_name, method, error_msg=""):
         super(Failure, self).__init__(None)
         self.error_name = error_name
         self.error_msg = error_msg
@@ -39,10 +39,10 @@ class Failure(Either):
         return True
 
     @staticmethod
-    def from_failure(args, procedure, exception):
+    def from_failure(args, method, exception):
         error_name = type(exception).__name__
         error_msg = exception.args[0] if exception.args else str(exception)
-        return Failure(error_name, error_msg, procedure.__name__)
+        return Failure(error_name, method.__name__, error_msg)
 
 def either_data(args):
     assert args
@@ -53,10 +53,10 @@ def either_data(args):
 
     raise ValueError("Input must be of type Either")
 
-def stage(procedure):
+def stage(method):
     """ Use this decorator for every stage executing a procedure of a pipeline """
 
-    @functools.wraps(procedure)
+    @functools.wraps(method)
     def wrapper(*args, **kwds):
         try:
             idx, data = either_data(args)
@@ -67,11 +67,11 @@ def stage(procedure):
 
             args = list(args[0:idx]) + [data.value] + list(args[idx+1:])
 
-            return Success(procedure(*args, **kwds))
+            return Success(method(*args, **kwds))
 
         except Exception as exception:
             # We want to capture exceptions silently in pipeline stages
-            return Failure.from_failure(args, procedure, exception)
+            return Failure.from_failure(args, method, exception)
 
     return wrapper
 
