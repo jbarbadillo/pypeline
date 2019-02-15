@@ -10,6 +10,8 @@ from pypeline.pypeline import stage, Success
 
 @stage
 def divide_by_2(number):
+    if number == 0:
+        raise ValueError("Value cannot be 0")
     return number / 2
 
 @stage
@@ -39,4 +41,6 @@ def test_given_two_procedures_if_first_raises_exception_then_can_get_error():
     number = pipeline(procedures)(Success(number))
 
     assert number.is_failure()
-    assert number.value.error_name == ""
+    assert number.error_name == "ValueError"
+    assert number.error_msg == "Value cannot be 0"
+    assert number.method == "divide_by_2"
