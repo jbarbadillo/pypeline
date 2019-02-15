@@ -11,7 +11,7 @@ class Either:
 
 
 class Success(Either):
-    """Success either path"""
+    """Success: equivalent to Right either variant"""
     def __init__(self, value): 
         self.value = value
 
@@ -22,15 +22,17 @@ class Success(Either):
         return True
 
 class Failure(Either):
-    """Failure either path"""
+    """Failure: equivalent to Left either variant"""
     def __init__(self, value): 
         self.value = value
-        
+
     def is_failure(self):
         return True
     
     def is_success(self):
         return False
 
-    def from_failure():
-        pass
+    def from_failure(self, args, method, error):
+        error_name = type(error).__name__
+        error_msg = error.args[0] if error.args else str(error)
+        return (error_name, error_msg, method.__name__)
