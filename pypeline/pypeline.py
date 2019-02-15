@@ -9,6 +9,9 @@ class Either:
     """
     Implementation of Either monad, from Haskell.
     """
+    def __init__(self, value):
+        self.value = value
+        
     def is_failure(self):
         raise NotImplementedError()
     
@@ -27,6 +30,7 @@ class Success(Either):
 class Failure(Either):
     """Failure: equivalent to Left either variant"""
     def __init__(self, error_name, error_msg, method):
+        super(Failure, self).__init__(None)
         self.error_name = error_name
         self.error_msg = error_msg
         self.method = method
