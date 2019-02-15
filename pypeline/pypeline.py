@@ -7,12 +7,14 @@ class Either:
     """
     Implementation of Either monad, from Haskell.
     """
-    def __init__(self, response):
-        self.response = response
+    pass
 
 
 class Success(Either):
     """Success either path"""
+    def __init__(self, value): 
+        self.value = value
+
     def is_failure(self):
         return False
     
@@ -21,7 +23,9 @@ class Success(Either):
 
 class Failure(Either):
     """Failure either path"""
-
+    def __init__(self, value): 
+        self.value = value
+        
     def is_failure(self):
         return True
     
