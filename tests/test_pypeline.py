@@ -16,18 +16,27 @@ def divide_by_2(number):
 def multiply_by_2(number):
     return number * 2
 
-def test_given_two_procedures_can_build_pipeline():
-    procedures = [divide_by_2, multiply_by_2]
+def pipeline(procedures):
+    def build(number):
+        for proc in procedures:
+            number = proc(number)
+        return number
+    
+    return build
 
-    def pipeline():
-        def build(number):
-            for proc in procedures:
-                number = proc(number)
-            return number
-        
-        return build
+def test_given_two_procedures_if_successful_can_get_result():
+    procedures = [divide_by_2, multiply_by_2]    
 
     number = 4
-    number = pipeline()(Success(number))
+    number = pipeline(procedures)(Success(number))
 
     assert number.value == 4
+
+def test_given_two_procedures_if_first_raises_exception_then_can_get_error():
+    procedures = [divide_by_2, multiply_by_2]    
+
+    number = 0
+    number = pipeline(procedures)(Success(number))
+
+    assert number.is_failure()
+    assert number.value.error_name == ""
