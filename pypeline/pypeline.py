@@ -75,15 +75,4 @@ def stage(method):
 
     return wrapper
 
-def compose_pipeline(*procedures):
-    """
-    Builds the pipeline of procedures or stages    
-    """
-
-    def compose(either):
-        return functools.reduce(
-            lambda either, op: op(either), procedures, either)
-
-    return compose
-
     
