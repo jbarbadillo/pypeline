@@ -10,19 +10,23 @@ class Either:
     def __init__(self, response):
         self.response = response
 
-    def is_success(self):
-        pass
-    
-    def is_failure(self):
-        pass
 
 class Success(Either):
     """Success either path"""
     def is_failure(self):
         return False
+    
+    def is_success(self):
+        return True
 
 class Failure(Either):
     """Failure either path"""
 
     def is_failure(self):
         return True
+    
+    def is_success(self):
+        return False
+
+    def from_failure():
+        pass
