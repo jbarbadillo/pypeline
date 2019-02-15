@@ -51,8 +51,9 @@ def either_data(args):
 
     raise ValueError("Input must be of type Either")
 
-def Stage(procedure):
+def stage(procedure):
     """ Use this decorator for every stage executing a procedure of a pipeline """
+    
     @functools.wraps(procedure)
     def wrapper(*args, **kwds):
         try:
