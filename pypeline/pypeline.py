@@ -61,7 +61,7 @@ def stage(method):
         try:
             idx, data = either_data(args)
 
-            # bypass in case of failure input
+            # bypasses in case of failure input
             if data.is_failure():
                 return data
 
