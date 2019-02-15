@@ -9,7 +9,11 @@ class Either:
     """
     Implementation of Either monad, from Haskell.
     """
-    pass
+    def is_failure(self):
+        raise NotImplementedError()
+    
+    def is_success(self):
+        return not self.is_failure()
 
 
 class Success(Either):
@@ -19,9 +23,6 @@ class Success(Either):
 
     def is_failure(self):
         return False
-    
-    def is_success(self):
-        return True
 
 class Failure(Either):
     """Failure: equivalent to Left either variant"""
@@ -32,9 +33,6 @@ class Failure(Either):
 
     def is_failure(self):
         return True
-    
-    def is_success(self):
-        return False
 
     @staticmethod
     def from_failure(args, procedure, exception):
@@ -53,7 +51,7 @@ def either_data(args):
 
 def stage(procedure):
     """ Use this decorator for every stage executing a procedure of a pipeline """
-    
+
     @functools.wraps(procedure)
     def wrapper(*args, **kwds):
         try:
