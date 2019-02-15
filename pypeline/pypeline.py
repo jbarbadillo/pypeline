@@ -23,8 +23,10 @@ class Success(Either):
 
 class Failure(Either):
     """Failure: equivalent to Left either variant"""
-    def __init__(self, value): 
-        self.value = value
+    def __init__(self, error_name, error_msg, method):
+        self.error_name = error_name
+        self.error_msg = error_msg
+        self.method = method
 
     def is_failure(self):
         return True
@@ -36,3 +38,4 @@ class Failure(Either):
         error_name = type(error).__name__
         error_msg = error.args[0] if error.args else str(error)
         return (error_name, error_msg, method.__name__)
+    
