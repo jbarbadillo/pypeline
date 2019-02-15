@@ -3,6 +3,8 @@
 """Pypeline implements railway oriented programming methods to 
    build a pipeline of functions with error handling"""
 
+from functools import wraps
+
 class Either:
     """
     Implementation of Either monad, from Haskell.
@@ -39,4 +41,12 @@ class Failure(Either):
         error_name = type(error).__name__
         error_msg = error.args[0] if error.args else str(error)
         return Failure(error_name, error_msg, method.__name__)
+    
+def Stage(procedure):
+    """ Use this decorator for every stage executing a procedure of a pipeline """
+    @wraps(procedure)
+    def wrapper(*args, **kwds):
+        pass
+
+    return wrapper
     
