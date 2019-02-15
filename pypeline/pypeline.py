@@ -3,7 +3,7 @@
 """Pypeline implements railway oriented programming methods to 
    build a pipeline of functions with error handling"""
 
-from functools import wraps
+import functools
 
 class Either:
     """
@@ -37,16 +37,51 @@ class Failure(Either):
         return False
 
     @staticmethod
-    def from_failure(args, method, error):
-        error_name = type(error).__name__
-        error_msg = error.args[0] if error.args else str(error)
-        return Failure(error_name, error_msg, method.__name__)
+    def from_failure(args, procedure, exception):
+        error_name = type(exception).__name__
+        error_msg = exception.args[0] if exception.args else str(exception)
+        return Failure(error_name, error_msg, procedure.__name__)
+
+def either_data(args):
+    assert args
     
+    for idx, arg in enumerate(args):
+        if isinstance(arg, Either):
+            return idx, arg
+
+    raise ValueError("Input must be of type Either")
+
 def Stage(procedure):
     """ Use this decorator for every stage executing a procedure of a pipeline """
-    @wraps(procedure)
+    @functools.wraps(procedure)
     def wrapper(*args, **kwds):
-        pass
+        try:
+            idx, data = either_data(args)
+
+            # bypass in case of failure input
+            if data.is_failure():
+                return data
+
+            args = list(args[0:idx]) + [data.value] + list(args[idx+1:])
+
+            return Success(procedure(*args, **kwds))
+
+        except Exception as exception:
+            # We want to capture exceptions silently in pipeline stages
+            return Failure.from_failure(args, procedure, exception)
 
     return wrapper
+
+def compose_pipeline(*procedures):
+    """
+    Builds the pipeline of procedures or stages    
+    """
+
+    def compose(either):
+        return functools.reduce(
+            lambda either, op: op(either), procedures, either)
+
+    return compose
+
+
     
