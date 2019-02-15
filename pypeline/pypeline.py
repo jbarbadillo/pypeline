@@ -83,5 +83,4 @@ def compose_pipeline(*procedures):
 
     return compose
 
-
     
