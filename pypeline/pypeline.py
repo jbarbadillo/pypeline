@@ -34,8 +34,9 @@ class Failure(Either):
     def is_success(self):
         return False
 
-    def from_failure(self, args, method, error):
+    @staticmethod
+    def from_failure(args, method, error):
         error_name = type(error).__name__
         error_msg = error.args[0] if error.args else str(error)
-        return (error_name, error_msg, method.__name__)
+        return Failure(error_name, error_msg, method.__name__)
     
