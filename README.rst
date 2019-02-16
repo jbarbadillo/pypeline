@@ -25,9 +25,11 @@ Features
 Description
 -----------
 
-This library is based in railway-oriented programming from Haskell, specially in Either monad. It is also inspired in 
-the code developed by jruiz the master craftsman software and *shokunin* from Eastern Navarre. The purpose of this tool
-is merely didactic, although it is completely usable.
+This library is based in railway-oriented programming from Haskell, specially in Either monad. 
+
+It is also inspired in the code developed by *jruiz* the master craftsman software and *shokunin* from Eastern Navarre. 
+
+The purpose of this tool is merely didactic, although it is completely usable.
 
 Credits
 -------
