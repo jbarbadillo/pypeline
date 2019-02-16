@@ -26,9 +26,10 @@ Description
 -----------
 
 This library is based in railway-oriented programming from Haskell, specially in 
-`Either <https://hackage.haskell.org/package/base-4.12.0.0/docs/Data-Either.html>`_. monad. 
+`Either <https://hackage.haskell.org/package/base-4.12.0.0/docs/Data-Either.html>`_ monad. 
 
-A good tutorial on railway-oriented programming can be found at F# for fun and profit.
+A good tutorial on railway-oriented programming can be found at 
+`F# for fun and profit <https://fsharpforfunandprofit.com/rop/>`_.
 
 It is also inspired in the code developed by *jruiz* the master craftsman software and *shokunin* from Eastern Navarre. 
 
